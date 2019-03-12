@@ -1,0 +1,48 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class calendarGUI extends JFrame{
+    
+    private JTextField tbName, tbPass, tbDate;
+    private JButton bLogin, bAdd, bAccept, bClear;
+    private JComboBox services;
+    private JPanel login1, login2, login3, login4;
+    private JFrame r;
+    private JLabel total;
+    public calendarGUI(){
+
+        tbName = new JTextField("Input Name");
+        tbPass = new JTextField("");
+        tbDate = new JTextField("mm/dd/yy");
+        bLogin = new JButton("Login");
+        bAdd = new JButton("Add");
+        bAccept = new JButton("Reserve");
+        bClear = new JButton("Clear");
+        services = new JComboBox();
+        total = new JLabel("0");
+        
+        login1 = new JPanel(new BorderLayout());
+        login2 = new JPanel(new BorderLayout());
+        login3 = new JPanel(new FlowLayout());
+        login4 = new JPanel(new FlowLayout());
+        
+        setLayout(new GridLayout(2,1));
+        
+        add(login1, BorderLayout.EAST);
+        add(login2, BorderLayout.CENTER);
+        add(login3, BorderLayout.SOUTH);
+        
+        login1.add(tbName);
+        login1.add(tbPass);
+        login1.add(bLogin);
+        
+        login2.add(tbDate);
+        login2.add(services);
+        login2.add(total);
+        login2.add(bAdd);
+        
+        login3.add(bAccept, BorderLayout.CENTER);
+        login3.add(bClear, BorderLayout.CENTER);
+    }
+}
