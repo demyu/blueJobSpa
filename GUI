@@ -4,31 +4,37 @@ import javax.swing.*;
 
 public class calendarGUI extends JFrame{
     
-    private JTextField tbName, tbPass, tbDate;
+    private JTextField tbName, tbPass, tbDate, tbNumber, tbAddress, tbEmail;
     private JButton bLogin, bAdd, bAccept, bClear;
     private JComboBox services;
-    private JPanel login1, login2, login3, login4;
+    private JPanel login1, login2, login3, login4, login5, login6, login7,login8,login9, login10, login11, login12, login13, login14,
+                    login15, login16, login17,login18;
     private JFrame r;
-    private JLabel total;
-    private String[] SpaStrings = {"Full Body Massage","Foot Job", "Blow Job"};
+    private JLabel total, UName, lpass, lDate, lSPA, lNumber, lAddress, lService, lEmail, lTotal;
+    private String[] SpaStrings = {"Full Body Massage","Honey body polish", "Volcanic rock massage", "Feetish  Foot Spa"};
     
     public calendarGUI(){
 
-        tbName = new JTextField("Input Name");
+        tbName = new JTextField("", 15);
             tbName.setFont(new Font("Luciana", Font.BOLD, 20));
             tbName.setHorizontalAlignment(JTextField.CENTER);
             tbName.setBackground(Color.BLACK);
             tbName.setForeground(Color.ORANGE);
-        tbPass = new JTextField("");
+        UName = new JLabel("Input Name");
+
+        tbPass = new JTextField("",15);
             tbPass.setFont(new Font("Luciana", Font.BOLD, 20));
             tbPass.setHorizontalAlignment(JTextField.CENTER);
             tbPass.setBackground(Color.BLACK);
             tbPass.setForeground(Color.ORANGE);
-        tbDate = new JTextField("mm/dd/yy");
+        lpass = new JLabel("Enter Password");
+
+        tbDate = new JTextField("", 10);
             tbDate.setFont(new Font("Luciana", Font.BOLD, 20));
             tbDate.setHorizontalAlignment(JTextField.CENTER);
             tbDate.setBackground(Color.BLACK);
             tbDate.setForeground(Color.ORANGE);
+        lDate = new JLabel("Input Date mm/dd/yy");
         bLogin = new JButton("Login");
             bLogin.setBackground(Color.BLACK);
             bLogin.setFont(new Font("Signboard", Font.BOLD, 20));
@@ -49,39 +55,88 @@ public class calendarGUI extends JFrame{
             services.setBackground(Color.BLACK);
             services.setFont(new Font("Signboard", Font.BOLD, 20));
             services.setForeground(Color.ORANGE);
+        lService = new JLabel("Select Services");
+
         total = new JLabel("0");
             total.setFont(new Font("Luciana", Font.BOLD, 20));
             total.setHorizontalAlignment(JTextField.CENTER);
             total.setBackground(Color.BLACK);
             total.setForeground(Color.ORANGE);
             total.setOpaque(true);
+        lTotal = new JLabel("Total Amount");
+        lSPA = new JLabel("Welcome to BLUEJOB SPA");
+            lSPA.setFont(new Font("Luciana", Font.BOLD, 20));
+            lSPA.setHorizontalAlignment(JTextField.CENTER);
+            lSPA.setBackground(Color.BLACK);
+            lSPA.setForeground(Color.ORANGE);
+            lSPA.setOpaque(true);
+
+        lNumber = new JLabel("Enter cellphone number");
+        tbNumber = new JTextField("",15);
+
+        lAddress = new JLabel("Enter Address");
+        tbAddress = new JTextField("",15);
         
-        login1 = new JPanel(new GridLayout(3,1));
-        login2 = new JPanel(new GridLayout(3,2));
+        lEmail = new JLabel("Enter Email");
+        tbEmail= new JTextField("",15);
+        
+        login1 = new JPanel(new BorderLayout());
+            login9 = new JPanel(new GridLayout(3,1));
+                login13 = new JPanel(new FlowLayout());
+                login14 = new JPanel(new FlowLayout());
+                login15= new JPanel(new FlowLayout());
+            login10 = new JPanel(new GridLayout(3,1));
+                login12 = new JPanel();
+            login11 = new JPanel();
+        login4 = new JPanel(new GridLayout(3,1));
+                login16 = new JPanel(new FlowLayout());
+                login17 = new JPanel(new FlowLayout());
+                login18= new JPanel(new FlowLayout());
+        login2= new JPanel(new FlowLayout());
         login3 = new JPanel(new FlowLayout());
-        login4 = new JPanel(new FlowLayout());
-        
-        setLayout(new GridLayout(3,2));
-        login3.setBackground( Color.black );
-        login2.setBackground( Color.black );
-        login1.setBackground( Color.black );
-        
-        add(login1, BorderLayout.EAST);
-        add(login2, BorderLayout.CENTER);
-        add(login3, BorderLayout.CENTER);
-        
-        login1.add(tbName);
-        login1.add(tbPass);
-        login1.add(bLogin);
-        
-        login2.add(tbDate);
-        login2.add(services);
-        login2.add(total);
-        login2.add(bAdd);
-        
-        login3.add(bAccept, BorderLayout.CENTER);
-        login3.add(bClear, BorderLayout.CENTER);
-        
-       
+        login5 = new JPanel(new FlowLayout());
+            login6= new JPanel(new FlowLayout());
+            login7= new JPanel(new FlowLayout());
+            login8= new JPanel(new FlowLayout());
+        setLayout(new GridLayout(1,2));
+
+        add(login1);
+            login1.add(lSPA, BorderLayout.NORTH);
+            login1.add(login9, BorderLayout.WEST);
+                login9.add(login13);
+                    login13.add(lDate);
+                    login13.add(tbDate);
+                login9.add(login14);
+                    login14.add(lNumber);
+                    login14.add(tbNumber);
+                login9.add(login15);
+                    login15.add(lAddress);
+                    login15.add(tbAddress);
+            login1.add(login10, BorderLayout.CENTER);
+                login10.add(login16);
+                    login16.add(lService);
+                    login16.add(services);
+                    login16.add(bAdd);
+                login10.add(login2);
+                    login2.add(lTotal);
+                    login2.add(total);
+                login10.add(login3);
+                    login3.add(lEmail);
+                    login3.add(tbEmail);
+            login1.add(login11, BorderLayout.SOUTH);
+                login11.add(bAccept);
+                login11.add(bClear);
+
+            
+        add(login4);
+            login4.add(login6);
+                login6.add(UName);
+                login6.add(tbName);
+            login4.add(login7);
+                login7.add(lpass);
+                login7.add(tbPass);
+            login4.add(login8);
+                login8.add(bLogin);
+
     }
 }
