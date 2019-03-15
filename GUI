@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.JOptionPane;
 
 public class calendarGUI extends JFrame{
     
@@ -47,7 +48,9 @@ public class calendarGUI extends JFrame{
             bAccept.setBackground(Color.BLACK);
             bAccept.setFont(new Font("Signboard", Font.BOLD, 20));
             bAccept.setForeground(Color.ORANGE);
+            bAccept.addActionListener(new bAcceptListener());
         bClear = new JButton("Clear");
+            bClear.addActionListener(new ClearListener());
             bClear.setBackground(Color.BLACK);
             bClear.setFont(new Font("Signboard", Font.BOLD, 20));
             bClear.setForeground(Color.ORANGE);
@@ -139,4 +142,29 @@ public class calendarGUI extends JFrame{
                 login8.add(bLogin);
 
     }
+
+    public class LoginListener implements ActionListener{
+        public void actionPerformed(ActionEvent ae){
+            //Login objects
+
+        }
+
+    }
+
+    public class ClearListener implements ActionListener{
+        public void actionPerformed(ActionEvent ae){
+            tbAddress.setText("");
+            tbDate.setText("");
+            tbEmail.setText("");
+            tbNumber.setText("");
+            total.setText("0");
+        }
+    }
+    public class bAcceptListener implements ActionListener{
+        public void actionPerformed(ActionEvent ae){
+            //Add to records
+            JOptionPane.showMessageDialog(null, "Appointment succesfull", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
 }
