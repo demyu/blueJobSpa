@@ -1,18 +1,26 @@
-public boolean calendar(String y){
-        int ctr = 0;
-        boolean result=true;
-        String[] calendar = new String [9999999];
-        do{
-            for(int r = 0; r<ctr; r++){
-                if(calendar[r].equals(y)){
-                    System.out.println("Date Taken");
-                    result = false;
-                }
-            }
-            if (result){
-                calendar[ctr]= y;
-                ctr++;
-            }
-        }while(result);
-        return result;
+import javax.swing.JOptionPane;
+
+public class calendar{
+    private String date, Name;
+    private int backSlashCounter;
+    private int digitCounter;
+    private boolean result, result1;
+    private double balance;
+
+
+
+    public calendar(String date, String Name){
+
+        this.date= date;
+        this.Name=Name;
+        balance = 0;
     }
+
+    public String getString(){
+        return date;
+    }
+
+    
+    }
+
+    
