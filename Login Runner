@@ -10,12 +10,42 @@
                         System.out.println("You have succesfuly created your account");
                         } 
                         else System.out.println("Name already taken");
-                        
-                        public static boolean indexAccNameCheck(String str, highLowsObject[]play,int ctr){
-                        for(int x=0; x<ctr; x++){
-                            if (str.equals(play[x].getName())){
-                                return false;
-                            }
+                break;
+                case 2:
+                    System.out.println("Input your name: ");
+                        name=sc.next();
+                    System.out.println("Input your password: ");
+                        password= sc.next();
+                    result =indexCheck(name, password, play,ctr);
+                    if(!result){
+                        System.out.println("Credentials does not match");
+                    }else{
+                        System.out.println("Sucessfully logged in");
+                        highLowsObject curr = play[logInSelector(name, password, play, ctr)-1];
                         }
-                        return true;
-                    }
+public static boolean indexCheck(String str, String pw, highLowsObject[] play,int ctr){
+        for(int x=0; x<ctr; x++){
+            if((str.equals(play[x].getName())) && (pw.equals(play[x].getPasssword()))){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static int logInSelector(String str, String pw, highLowsObject[] play,int ctr){
+        for(int x=0; x<ctr; x++){
+            if((str.equals(play[x].getName())) && (pw.equals(play[x].getPasssword()))){
+                return ctr;
+            }
+        }
+        return ctr= -1;
+    }
+    
+
+    public static boolean indexAccNameCheck(String str, highLowsObject[]play,int ctr){
+        for(int x=0; x<ctr; x++){
+            if (str.equals(play[x].getName())){
+                return false;
+            }
+        }
+        return true;
+    }
