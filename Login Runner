@@ -1,3 +1,24 @@
+import java.util.Scanner;
+public class highLowRunner{
+
+
+    public static void main(String []args){
+        int choice; int amount, ctr=0, choice2, choice3;
+        Scanner sc = new Scanner(System.in);
+        String name, password;
+        boolean result;
+        highLowsObject[] play = new highLowsObject[99999];
+
+        do{
+
+            System.out.println("[1] Create Account");
+            System.out.println("[2] Login");
+            System.out.println("[3] Exit");
+            choice = sc.nextInt();
+            
+            switch(choice){
+                case 1: 
+                    
                     System.out.println("Enter your name: ");
                         name = sc.next();
                     System.out.println("Create your password: ");
@@ -22,8 +43,69 @@
                     }else{
                         System.out.println("Sucessfully logged in");
                         highLowsObject curr = play[logInSelector(name, password, play, ctr)-1];
-                        }
-public static boolean indexCheck(String str, String pw, highLowsObject[] play,int ctr){
+                        
+                        do{
+                            System.out.println("[1] To play");
+                            System.out.println("[2] Deposit balance");
+                            System.out.println("[3] Cash Out");
+                            System.out.println("[4] Exit");
+                            choice2= sc.nextInt();
+
+                            switch(choice2){
+                                case 1:
+                                        System.out.println("Successfully entered a table");
+                                        do{
+                                        curr.draw();
+                                        System.out.println(curr.getCurrHand()%14);
+                                        System.out.println("What would be your turn?");
+                                        System.out.println("[1] to bet higher");
+                                        System.out.println("[2] to bet lower");
+                                        System.out.println("[3] to fold");
+                                        choice3= sc.nextInt();
+                                        result =curr.won();
+                                        if(result){
+                                            choice =3;
+                                            curr.intializeDeck();
+                                        }
+                                        }while(choice!=3);
+                                        System.out.println("Your current balance is "+ curr.getBalance());
+                                        break;
+                                        
+                                case 2: System.out.println("Input amount");
+                                        amount = sc.nextInt();
+                                        result = curr.addBalance(amount);
+                                        if(result){
+                                            System.out.println("Successfuly added "+amount);
+                                            System.out.println("Your total balance is: " +curr.getBalance());
+                                        }else 
+                                            System.out.println("Invalid amount");
+                                        break;
+                                        
+                                case 3: System.out.println("Input amount");
+                                amount = sc.nextInt();
+                                result = curr.widrawBalance(amount);
+                                if(result){
+                                    System.out.println("Successfuly widrawn "+amount);
+                                    System.out.println("Your total balance is: " +curr.getBalance());
+                                }else 
+                                    System.out.println("Invalid amount");
+                                break;
+                                    //Work Here
+                                default: System.out.println("Invalid choice");
+                            }
+                        }while (choice2!=4);
+                    }
+                    break;
+                case 3: System.out.println("Thank you for visiting BlueJob Casino");
+                break;
+                default: System.out.println("Invalid Input");  
+                break;
+            }
+        }while (choice !=3);
+
+    }
+
+    public static boolean indexCheck(String str, String pw, highLowsObject[] play,int ctr){
         for(int x=0; x<ctr; x++){
             if((str.equals(play[x].getName())) && (pw.equals(play[x].getPasssword()))){
                 return true;
@@ -49,3 +131,4 @@ public static boolean indexCheck(String str, String pw, highLowsObject[] play,in
         }
         return true;
     }
+}
