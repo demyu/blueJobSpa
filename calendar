@@ -1,24 +1,18 @@
-import java.util.Scanner;
-public class calendar{
-    
-    public static void main(String[]args){
+public boolean calendar(String y){
         int ctr = 0;
         boolean result=true;
         String[] calendar = new String [9999999];
         do{
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Input date");
-        String y = sc.nextLine();
-        for(int r = 0; r<ctr; r++){
-            if(calendar[r].equals(y)){
-                System.out.println("Invalid");
-                result = false;
+            for(int r = 0; r<ctr; r++){
+                if(calendar[r].equals(y)){
+                    System.out.println("Date Taken");
+                    result = false;
+                }
             }
-        }
-        if (result){
-            calendar[ctr]= y;
-            ctr++;
-        }
-    }while(result);
+            if (result){
+                calendar[ctr]= y;
+                ctr++;
+            }
+        }while(result);
+        return result;
     }
-}
