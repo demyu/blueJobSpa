@@ -1,0 +1,21 @@
+                    System.out.println("Enter your name: ");
+                        name = sc.next();
+                    System.out.println("Create your password: ");
+                        password = sc.next();
+                        result = indexAccNameCheck(name, play, ctr);
+                        if (result){
+                        highLowsObject curr = new highLowsObject(name, password);
+                        play[ctr] = curr;
+                        ctr++;
+                        System.out.println("You have succesfuly created your account");
+                        } 
+                        else System.out.println("Name already taken");
+                        
+                        public static boolean indexAccNameCheck(String str, highLowsObject[]play,int ctr){
+                        for(int x=0; x<ctr; x++){
+                            if (str.equals(play[x].getName())){
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
