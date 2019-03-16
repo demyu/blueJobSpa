@@ -18,8 +18,8 @@ public class calendarGUI extends JFrame{
     private double balance=0;
     private int ctr1, ctr2, ctr3, ctr4, ctr5, ctr6, ctr7, ctr8, ctr9, ctr10;
     private double FBM=5000, HBP=3000, VRM=10000, AUP=2000, SSBS=1500, PFR=2000, MP=1000, CF=4000, CR=3000, TH=1500;
-    public boolean result, result1, panel1E = false, panel2E = true;
-    private int ctr=0;
+    public boolean result, result1, panel1E = true, panel2E = true;
+    private int ctr=0, mm,dd,yy;
     calendar[] accts= new calendar[999999];
 
     public calendarGUI(){
@@ -47,7 +47,7 @@ public class calendarGUI extends JFrame{
             tbDate.setHorizontalAlignment(JTextField.CENTER);
             tbDate.setBackground(Color.GRAY);
             tbDate.setForeground(Color.ORANGE);
-        lDate = new JLabel("Input Date mm/dd/yy");
+        lDate = new JLabel("Input Date mm/dd/yyyy");
             lDate.setFont(new Font("Signboard", Font.BOLD, 20));
             lDate.setForeground(Color.ORANGE);
         bLogin = new JButton("Login");
@@ -227,7 +227,7 @@ public class calendarGUI extends JFrame{
     }
     public class bAcceptListener implements ActionListener{
         public void actionPerformed(ActionEvent ae){
-            result = StringChecker(tbDate.getText(), ctr);
+            result = StringChecker(tbDate.getText(), ctr,mm,dd,yy);
                 if (result){
                         result1= takeChecker(accts, ctr, tbDate.getText());
                         if(result1){
@@ -238,7 +238,8 @@ public class calendarGUI extends JFrame{
                             JOptionPane.showMessageDialog(null, "Appointment succesfull", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
                             clearMethod();
                         }
-                }
+                }else 
+                    JOptionPane.showMessageDialog(null, "Invalid date", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -293,7 +294,7 @@ public class calendarGUI extends JFrame{
         return true;
     }
 
-    public static boolean StringChecker(String i, int ctr){
+    public static boolean StringChecker(String i, int ctr, int mm, int dd, int yy){
         boolean result2= true;
         int digitCounter=0;
         int backSlashCounter=0;
@@ -315,10 +316,28 @@ public class calendarGUI extends JFrame{
             }else 
                 result2 = false;
         }
-        if(result2)
-            return true;
-            
-        else{
+        if(result2){
+            String month = Character.toString(i.charAt(0))+ Character.toString(i.charAt(1));
+            mm =Integer.parseInt(month);
+            String day = Character.toString(i.charAt(3)) + Character.toString(i.charAt(4));
+            dd = Integer.parseInt(day);
+            String year = Character.toString(i.charAt(6))+ Character.toString(i.charAt(7))
+                          +Character.toString(i.charAt(8))+Character.toString(i.charAt(9));
+            yy = Integer.parseInt(year);
+
+            if(mm<=12 && dd<=31 && yy>2018){
+                if((mm == 1 || mm== 3 || mm==5 || mm==7 || mm==8 || mm==10 || mm ==12 ) && dd<=31){
+                    return true;
+                //Method Feb
+                } else if(mm == 2 && isLeapYear(yy)){
+                    return true;
+                }else if((mm== 4|| mm==6|| mm == 9|| mm==11) && dd<=30){
+                    return true;
+                }else 
+                    return false;
+            }else 
+                return false;
+        }else{
             JOptionPane.showMessageDialog(null, "Invalid Format","BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
@@ -352,7 +371,17 @@ public class calendarGUI extends JFrame{
         tbPass.setEnabled(y);
         bLogin.setEnabled(y);
         bSignup.setEnabled(y);
-        
     }
+    public static boolean isLeapYear(int year) {
+        if (year % 4 != 0) {
+          return false;
+        } else if (year % 400 == 0) {
+          return true;
+        } else if (year % 100 == 0) {
+          return false;
+        } else {
+          return true;
+        }
+      }      
 }
 
