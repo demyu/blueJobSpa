@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 public class calendarGUI extends JFrame{
     
     private JTextField tbName, tbPass, tbDate, tbNumber, tbAddress, tbEmail;
-    private JButton bLogin, bAdd, bAccept, bClear,bSignup;
+    private JButton bLogin, bAdd, bAccept, bClear,bSignup, blogout;
     private JComboBox services;
     private JPanel login1, login2, login3, login4, login6, login7,login8,login9, login10, login11, login12, login13, login14,
                     login15, login16;
@@ -18,7 +18,7 @@ public class calendarGUI extends JFrame{
     private double balance=0;
     private int ctr1, ctr2, ctr3, ctr4, ctr5, ctr6, ctr7, ctr8, ctr9, ctr10;
     private double FBM=5000, HBP=3000, VRM=10000, AUP=2000, SSBS=1500, PFR=2000, MP=1000, CF=4000, CR=3000, TH=1500;
-    public boolean result, result1;
+    public boolean result, result1, panel1E = false, panel2E = true;
     private int ctr=0;
     calendar[] accts= new calendar[999999];
 
@@ -124,6 +124,12 @@ public class calendarGUI extends JFrame{
             bSignup.setFont(new Font("Luciana", Font.BOLD, 20));
             bSignup.setForeground(Color.ORANGE);
             bSignup.setBackground(Color.BLACK);
+
+        blogout= new JButton("Log-out");
+            blogout.setFont(new Font("Luciana", Font.BOLD, 20));
+            blogout.setForeground(Color.ORANGE);
+            blogout.setBackground(Color.BLACK);
+            blogout.addActionListener(new logoutListener());
         
         login1 = new JPanel(new BorderLayout());
             login9 = new JPanel(new GridLayout(3,1));
@@ -171,6 +177,7 @@ public class calendarGUI extends JFrame{
             login1.add(login11, BorderLayout.SOUTH);
                 login11.add(bAccept);
                 login11.add(bClear);
+                login11.add(blogout);
 
             
         add(login4);
@@ -183,7 +190,8 @@ public class calendarGUI extends JFrame{
             login4.add(login8);
                 login8.add(bLogin);
                 login8.add(bSignup);
-
+        
+        disabler(panel1E, panel2E);
         //Darkmoder
         login1.setBackground(Color.BLACK);
         login2.setBackground(Color.BLACK);
@@ -201,25 +209,20 @@ public class calendarGUI extends JFrame{
         login16.setBackground(Color.BLACK);
         login11.setBackground(Color.BLACK);
     }
-
+    
 
 
     public class LoginListener implements ActionListener{
         public void actionPerformed(ActionEvent ae){
-            //Login objects
-
+            //Login here
+            
         }
 
     }
 
     public class ClearListener implements ActionListener{
         public void actionPerformed(ActionEvent ae){
-            tbAddress.setText("");
-            tbDate.setText("");
-            tbEmail.setText("");
-            tbNumber.setText("");
-            total.setText("0");
-            ctr1=ctr2=ctr3=ctr4=ctr5=ctr6=ctr7=ctr8=ctr9=ctr10=0;
+            clearMethod();
         }
     }
     public class bAcceptListener implements ActionListener{
@@ -229,9 +232,11 @@ public class calendarGUI extends JFrame{
                         result1= takeChecker(accts, ctr, tbDate.getText());
                         if(result1){
                             calendar curr = new calendar(tbDate.getText(), tbName.getText());
+                            curr.addBalance(balance); 
                             accts[ctr] = curr;
                             ctr++;
                             JOptionPane.showMessageDialog(null, "Appointment succesfull", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
+                            clearMethod();
                         }
                 }
         }
@@ -250,7 +255,7 @@ public class calendarGUI extends JFrame{
                 if(ComboString.equals("Volcanic rock massage")){
                     ctr3++;
                 }
-                if(ComboString.equals("Acupunture")){
+                if(ComboString.equals("Acupuncture")){
                     ctr4++;
                 }
                 if(ComboString.equals("Sea salt body spa")){
@@ -280,7 +285,7 @@ public class calendarGUI extends JFrame{
             return true;
 
         for(int r = 0; r<ctr; r++){
-            if(accts[r].getString().equals(i)){
+            if(accts[r].dateGetString().equals(i)){
                 JOptionPane.showMessageDialog(null, "Date already taken","BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
                 return false;
             }
@@ -317,6 +322,37 @@ public class calendarGUI extends JFrame{
             JOptionPane.showMessageDialog(null, "Invalid Format","BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
+    }
+    public void clearMethod(){
+            tbAddress.setText("");
+            tbDate.setText("");
+            tbEmail.setText("");
+            tbNumber.setText("");
+            total.setText("0");
+            ctr1=ctr2=ctr3=ctr4=ctr5=ctr6=ctr7=ctr8=ctr9=ctr10=0;
+    }
+
+    public class logoutListener implements ActionListener{
+        public void actionPerformed(actionPerformed ae){
+            clearMethod();
+        }
+    }
+
+    public void disabler(boolean x, boolean y){
+        tbDate.setEnabled(x);
+        tbNumber.setEnabled(x);
+        tbAddress.setEnabled(x);
+        tbEmail.setEnabled(x); 
+        bAccept.setEnabled(x); 
+        services.setEnabled(x); 
+        bClear.setEnabled(x);
+        bAdd.setEnabled(x);
+        blogout.setEnabled(x);
+        tbName.setEnabled(y);
+        tbPass.setEnabled(y);
+        bLogin.setEnabled(y);
+        bSignup.setEnabled(y);
+        
     }
 }
 
