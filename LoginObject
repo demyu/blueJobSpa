@@ -1,0 +1,116 @@
+import java.util.Random;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class highLowsObject{
+    private int hand;
+    private int balance;
+    private int bet;
+    private int balanceDealer;
+    private ArrayList<Integer> deck = new ArrayList<Integer>();
+    private int currCard;
+    private int totalCards;
+    private String name;
+    private String password;
+
+
+    public highLowsObject(String name, String password){
+        this.name = name;
+        this.balance = 0;
+        this.password = password;
+        intializeDeck();
+    }
+    public void intializeDeck(){
+        for(int x = 0, r =1; x<=52; x++){
+            deck.add(x,r);
+            r++;
+        }
+    }
+
+    public void draw(){
+        double first = (Math.random() * (deck.size()+1));
+        int y = (int) first;
+        currCard=deck.get(y);
+        hand+=currCard;
+        totalCards++;
+        deleteIndex(y);
+    }
+
+    public void deleteIndex(int cardRemove){
+        deck.remove(cardRemove);
+    }
+
+    public boolean addBalance(int amount){
+        if(amount>0){
+            balance+=amount;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean widrawBalance(int amount){
+        if(amount >0){
+            balance-=amount;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean higher(){
+        int val = currCard;
+        draw();
+        if(val <currCard){
+            hand+= currCard;
+            bet*=2;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean lower(){
+        int val = currCard;
+        draw();
+        if(val > currCard){
+            hand+= currCard;
+            bet*=2;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean raise(int amount){
+        if(amount> 0){
+            bet += amount;
+            return true;
+        }
+        return false;
+    }
+    /*public int turn(){
+        int x=0;
+        x++;
+        return x;
+    }*/
+    public boolean won(){
+        if (totalCards==5){
+            balance += (bet*5);
+            return true;
+        }
+        return false;
+    }
+
+    public String getName(){
+        return name;
+    } 
+
+    public String getPasssword(){
+        return password;
+    }
+
+    public int getBalance(){
+        return balance;
+    }
+
+    public int getCurrHand(){
+        return currCard;
+    }
+}
