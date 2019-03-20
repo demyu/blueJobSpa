@@ -2,25 +2,35 @@ import javax.swing.JOptionPane;
 
 public class calendar{
     private String date, Name;
-    private int backSlashCounter;
-    private int digitCounter;
-    private boolean result, result1;
     private double balance;
-
-
-
+    private int ID;
+    private int number;
+    
     public calendar(String date, String Name){
 
-        this.date= date;
+        this.date=date;
         this.Name=Name;
-        balance = 0;
+        balance=0;
     }
 
-    public String getString(){
+    public String dateGetString(){
         return date;
     }
-
-    
+    public void addBalance(double x){
+        balance +=x;
     }
+
+    public void setID(int x){
+        ID= x;
+    }
+
+    public int getID(){
+        return ID;
+    }
+
+    public void setNumber(int x){
+        number = x;
+    }
+}
 
     
