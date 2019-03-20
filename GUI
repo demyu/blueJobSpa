@@ -10,17 +10,17 @@ public class calendarGUI extends JFrame{
     private JComboBox services;
     private JPanel login1, login2, login3, login4, login6, login7,login8,login9, login10, login11, login12, login13, login14,
                     login15, login16;
-    
     private JLabel total, UName, lpass, lDate, lSPA, lNumber, lAddress, lService, lEmail, lTotal;
     private String[] SpaStrings = {"Full Body Massage","Honey body polish", "Volcanic rock massage", "Acupuncture", 
     "Sea salt body spa", "Peppermint Foot Rub", "Manicure Pedicure", "Casmara Facial", "Coffee Rub", "Traditional Hilot"};
     private String ComboString;
     private double balance=0;
-    private int ctr1, ctr2, ctr3, ctr4, ctr5, ctr6, ctr7, ctr8, ctr9, ctr10;
+    private int ctr1, ctr2, ctr3, ctr4, ctr5, ctr6, ctr7, ctr8, ctr9, ctr10, usersCtr=0, idCtr=0;
     private double FBM=5000, HBP=3000, VRM=10000, AUP=2000, SSBS=1500, PFR=2000, MP=1000, CF=4000, CR=3000, TH=1500;
-    public boolean result, result1, panel1E = true, panel2E = true;
+    public boolean result, result1, panel1E = false, panel2E = true, numberResult;
     private int ctr=0, mm,dd,yy;
     calendar[] accts= new calendar[999999];
+    accounts[] users = new accounts[999999];
 
     public calendarGUI(){
 
@@ -54,6 +54,8 @@ public class calendarGUI extends JFrame{
             bLogin.setBackground(Color.BLACK);
             bLogin.setFont(new Font("Luciana", Font.BOLD, 20));
             bLogin.setForeground(Color.ORANGE);
+            bLogin.addActionListener(new LoginListener());
+            bLogin.setEnabled(false);
         bAdd = new JButton("Add");
             bAdd.setBackground(Color.BLACK);
             bAdd.setFont(new Font("Luciana", Font.BOLD, 20));
@@ -87,7 +89,7 @@ public class calendarGUI extends JFrame{
             lTotal.setFont(new Font("Signboard", Font.BOLD, 20));
             lTotal.setForeground(Color.ORANGE);
         lSPA = new JLabel("Welcome to BLUEJOB SPA");
-            lSPA.setFont(new Font("Luciana", Font.BOLD, 20));
+            lSPA.setFont(new Font("Luciana", Font.BOLD, 50));
             lSPA.setHorizontalAlignment(JTextField.CENTER);
             lSPA.setBackground(Color.BLACK);
             lSPA.setForeground(Color.ORANGE);
@@ -124,6 +126,7 @@ public class calendarGUI extends JFrame{
             bSignup.setFont(new Font("Luciana", Font.BOLD, 20));
             bSignup.setForeground(Color.ORANGE);
             bSignup.setBackground(Color.BLACK);
+            bSignup.addActionListener(new signUpListener());
 
         blogout= new JButton("Log-out");
             blogout.setFont(new Font("Luciana", Font.BOLD, 20));
@@ -211,13 +214,37 @@ public class calendarGUI extends JFrame{
     }
     
 
-
     public class LoginListener implements ActionListener{
         public void actionPerformed(ActionEvent ae){
             //Login here
-            
+            if(loginChecker(users, tbName.getText(), tbPass.getText(), usersCtr)){
+               accounts acurr= users[logginIn(users, tbName.getText(), tbPass.getText(), usersCtr)];
+               JOptionPane.showMessageDialog(null, "Succesfully Logged in", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
+               disabler(true, false);
+            }else{
+                JOptionPane.showMessageDialog(null, "Username of password does not match", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
 
+    }
+    public class signUpListener implements ActionListener{
+        public void actionPerformed(ActionEvent ae){
+            if(usersCtr==0 && emptyLoginChecker(tbName.getText(), tbPass.getText())){
+                accounts acurr = new accounts(tbName.getText(), tbPass.getText());
+                users[usersCtr]=acurr;
+                usersCtr++;
+                JOptionPane.showMessageDialog(null, "Sign up succesfull", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
+                bLogin.setEnabled(true);
+            }else if(signUpChecker(users, tbName.getText())){
+                accounts acurr = new accounts(tbName.getText(), tbPass.getText());
+                users[usersCtr]= acurr;
+                usersCtr++;
+            }else if(!emptyLoginChecker(tbName.getText(), tbPass.getText())){
+            JOptionPane.showMessageDialog(null, "Please input Name and Password", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+            JOptionPane.showMessageDialog(null, "Name Already Taken", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }
 
     public class ClearListener implements ActionListener{
@@ -228,18 +255,24 @@ public class calendarGUI extends JFrame{
     public class bAcceptListener implements ActionListener{
         public void actionPerformed(ActionEvent ae){
             result = StringChecker(tbDate.getText(), ctr,mm,dd,yy);
-                if (result){
+                if (result && balance!=0){
                         result1= takeChecker(accts, ctr, tbDate.getText());
                         if(result1){
                             calendar curr = new calendar(tbDate.getText(), tbName.getText());
+                            accounts acurr= users[logginIn(users, tbName.getText(), tbPass.getText(), usersCtr)];
                             curr.addBalance(balance); 
                             accts[ctr] = curr;
                             ctr++;
+                            curr.setID(idCtr);
+                            acurr.setID(idCtr);
+                            if(numberChecker(tbNumber.getText())){
+                                curr.setNumber(Integer.parseInt(tbNumber.getText()));
+                            }
                             JOptionPane.showMessageDialog(null, "Appointment succesfull", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
                             clearMethod();
                         }
                 }else 
-                    JOptionPane.showMessageDialog(null, "Invalid date", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Invalid date/ Please add an order", "BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -287,7 +320,7 @@ public class calendarGUI extends JFrame{
 
         for(int r = 0; r<ctr; r++){
             if(accts[r].dateGetString().equals(i)){
-                JOptionPane.showMessageDialog(null, "Date already taken","BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Date already taken/Please add an order","BlueJob Spa", JOptionPane.INFORMATION_MESSAGE);
                 return false;
             }
         }
@@ -317,6 +350,7 @@ public class calendarGUI extends JFrame{
                 result2 = false;
         }
         if(result2){
+            //Divides the date for date checking
             String month = Character.toString(i.charAt(0))+ Character.toString(i.charAt(1));
             mm =Integer.parseInt(month);
             String day = Character.toString(i.charAt(3)) + Character.toString(i.charAt(4));
@@ -329,7 +363,9 @@ public class calendarGUI extends JFrame{
                 if((mm == 1 || mm== 3 || mm==5 || mm==7 || mm==8 || mm==10 || mm ==12 ) && dd<=31){
                     return true;
                 //Method Feb
-                } else if(mm == 2 && isLeapYear(yy)){
+                } else if(mm == 2 && isLeapYear(yy) && dd <=29){
+                    return true;
+                }else if(mm == 2 && dd<=28){
                     return true;
                 }else if((mm== 4|| mm==6|| mm == 9|| mm==11) && dd<=30){
                     return true;
@@ -351,12 +387,15 @@ public class calendarGUI extends JFrame{
             ctr1=ctr2=ctr3=ctr4=ctr5=ctr6=ctr7=ctr8=ctr9=ctr10=0;
     }
 
+    //Clears current user and fields
     public class logoutListener implements ActionListener{
-        public void actionPerformed(actionPerformed ae){
+        public void actionPerformed(ActionEvent ae){
+            idCtr++;
             clearMethod();
         }
     }
 
+    //Disables/Enable Login-Logout panel
     public void disabler(boolean x, boolean y){
         tbDate.setEnabled(x);
         tbNumber.setEnabled(x);
@@ -372,16 +411,56 @@ public class calendarGUI extends JFrame{
         bLogin.setEnabled(y);
         bSignup.setEnabled(y);
     }
+
+    //Checks if February is LeapYear
     public static boolean isLeapYear(int year) {
-        if (year % 4 != 0) {
-          return false;
-        } else if (year % 400 == 0) {
-          return true;
-        } else if (year % 100 == 0) {
-          return false;
-        } else {
-          return true;
+        if (((year % 4 == 0) && (year % 100!= 0)) || (year%400 == 0)){
+            return true;
+        }else{
+            return false;
         }
-      }      
+    }
+
+    public boolean emptyLoginChecker(String p, String y){
+        if(p.length() >0 && y.length()>0){
+            return true;
+        }
+        return false;
+    }
+    public boolean signUpChecker(accounts[] users,String x){
+        for(int y=0; y<ctr; y++){
+            if(users[y].equals(x)){
+                return true;
+            }
+        }
+        return false;
+    }
+    //Checks if name and password are correct
+    public boolean loginChecker(accounts[] users,String u, String q, int userCtr){
+        for(int h=0; h<userCtr; h++){
+            if(users[h].getName().equals(u) && users[h].getPassword().equals(q)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int logginIn(accounts[] users,String u, String q, int userCtr){
+        for(int h=0; h<userCtr; h++){
+            if(users[h].getName().equals(u) && users[h].getPassword().equals(q)){
+                return h;
+            }
+        }
+        return 0;
+    }
+
+    public boolean numberChecker(String number){
+        for(int x = 0; x<number.length(); x++){
+            if(Character.isLetter(x)){
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
