@@ -347,7 +347,7 @@ public class SpaSystemGUI extends JFrame{
     
     public  boolean checker(String tbName, int nameCtr, accounts[] list){
         for(int i = 0; i<nameCtr; i++){
-            if(list[nameCtr].equals(list[i])){
+            if(list[nameCtr].equals(list[i].getAcct())){
                 exists = true;
             }
         }
