@@ -9,7 +9,7 @@ public class accounts{
         this.Pass = Pass;
     }
     
-    public String getAcct(String Name){
+    public String getAcct(){
         return Name;
     }
 }
